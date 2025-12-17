@@ -3,9 +3,21 @@ from streamlit_option_menu import option_menu
 from appointment import online,offline
 from dates import dateValue
 from off_date import offDateValue
-st.title("Parlour Page",text_alignment="center")
+from dotenv import load_dotenv
+from aichat import chatbot
+st.markdown("""
+<style>
+h1 {
+    text-align: center;
+}
+</style>
+""", unsafe_allow_html=True)
+st.title("Parlour Page")
 st.markdown("<h1 style='text-align: center; color:red;font-size:10px;'>Development of page layout as per flowchart(atlassian)</h1>", unsafe_allow_html=True)
 st.set_page_config(layout="wide")
+import os
+load_dotenv()
+Groq_api=os.getenv("Groq_api")
 if "sub_page" not in st.session_state:
     st.session_state.sub_page = None
 if "current_page" not in st.session_state:
@@ -64,12 +76,17 @@ def category():
                 st.write("list of makeup palours")    
 def Guid():
     st.write("this a guid which will have complete guid and navigation details for user")
+def chatbots():
+    input_text=st.text_input("ex: top saloons near <location>")
+    if input_text:
+        response=chatbot(Groq_api,input_text)
+        st.write(response)
 def home():
     
     selected=option_menu(
             menu_title=None,
-            options=["Parlour Near Me","Book an Appointment","Categories","Guid"],
-            icons=["geo-alt", "calendar", "list","book"],
+            options=["Parlour Near Me","Book an Appointment","Categories","Guid","AiChatSearch"],
+            icons=["geo-alt", "calendar", "list","book","search"],
             orientation="horizontal",
             default_index=0
         )
@@ -82,7 +99,9 @@ def home():
     if selected== "Categories":
                 category()
     if selected== "Guid":
-                Guid()     
+                Guid() 
+    if selected== "AiChatSearch":
+           chatbots()                
             
              
 if st.session_state.current_page == "Home":
