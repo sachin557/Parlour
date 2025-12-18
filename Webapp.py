@@ -24,7 +24,8 @@ if "current_page" not in st.session_state:
     st.session_state.current_page="Home"
 if "selected_name" not in st.session_state:
     st.session_state.selected_name = None
-
+if "selected_name" not in st.session_state:
+    st.session_state.address = None
 st.markdown("""
 <style>
 div.stButton:has(button[key^="small_"]) > button {
@@ -111,7 +112,7 @@ elif st.session_state.current_page == "online":
 elif st.session_state.current_page == "offline":
     offline()     
 elif st.session_state.current_page=="date":
-    dateValue(st.session_state.selected_name)  
+    dateValue(Groq_api,st.session_state.selected_name,st.session_state.address)
 elif st.session_state.current_page=="offdate":
     offDateValue(st.session_state.selected_name) 
 elif st.session_state.current_page=="appointment":

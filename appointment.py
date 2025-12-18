@@ -33,6 +33,7 @@ def online():
 
    
     names=["saloon A","Saloon B","saloon C"]
+    address={"saloon A":"surathkal mangalore 575014","saloon B":"surathkal mangalore 575014","saloon C":"surathkal mangalore 575014"}
     if st.session_state.selected_name is None:
         for name in names:
 
@@ -40,6 +41,8 @@ def online():
                 
                 st.session_state.selected_name=name
                 st.session_state.current_page="date"
+                address=address.get(name)
+                st.session_state.address=address
                 #st.session_state.selected_page
                 st.rerun()
         st.divider()        
